@@ -1,0 +1,2 @@
+id,title,description,availability,condition,price,link,image_link,brand,item_group_id
+EXAMPLE_SKU_123,[ARCHIVED] Placeholder Product,This product is archived to ensure pixel consistency.,out of stock,new,0.00 EUR,https://typotecture.com/,https://typotecture.com/placeholder.jpg,Typowear,ARCHIVED_PLACEHOLDER
