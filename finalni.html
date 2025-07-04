@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Typowear Structured Data</title>
+</head>
+<body>
+
+<script>
+// URL tvog CSV feeda
+const csvUrl = 'https://raw.githubusercontent.com/typowear/feed2/refs/heads/main/meta_catalog_typowear_FINAL_MATCHED_FIXED_LINKS_UTM.csv';
+
+// Funkcija za parsiranje CSV u niz objekata
+function parseCSV(csv) {
+  const lines = csv.trim().split('\n');
+  const headers = lines[0].split(',');
+
+  return lines.slice(1).map(line => {
+    const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+    const obj = {};
+    headers.forEach((header, i) => {
+      obj[header] = values[i]?.replace(/^"|"$/g, '').trim() || '';
+    });
+    return obj;
+  });
+}
+
+fetch(csvUrl)
+  .then(response => response.text())
+  .then(csvText => {
+    const products = parseCSV(csvText);
+
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@graph": products.map(p => ({
+        "@type": "Product",
+        "sku": p.id,
+        "name": p.title,
+        "description": p.description,
+        "image": p.image_link,
+        "url": p.link,
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "EUR",
+          "price": p.price,
+          "availability": p.availability.toLowerCase().startsWith('in stock') ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          "itemCondition": "https://schema.org/NewCondition",
+          "seller": {
+            "@type": "Organization",
+            "name": "Typowear"
+          }
+        },
+        "brand": {
+          "@type": "Brand",
+          "name": p.brand
+        },
+        "category": p.google_product_category || ""
+      }))
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(jsonLd, null, 2);
+    document.head.appendChild(script);
+  })
+  .catch(error => {
+    console.error('Error loading or parsing CSV:', error);
+  });
+</script>
+
+</body>
+</html>
