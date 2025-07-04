@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Typowear Structured Data</title>
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org/",
+      "@type": "LocalBusiness",
+      "name": "Typotecture",
+      "image": "https://www.typotecture.com/s/cc_images/teaser-logo.png",
+      "url": "https://www.typotecture.com",
+      "telephone": "+385917298025",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ulica Primjera 12",
+        "addressLocality": "Zagreb",
+        "postalCode": "10000",
+        "addressCountry": "HR"
+      }
+    },
+    <!-- Svi product JSON-LD blokovi dolaze preko GitHub CDN linka ispod -->
+    {
+      "@context": "https://schema.org/",
+      "@graph": "https://raw.githubusercontent.com/typowear/feed2/refs/heads/main/typowear_structured_data_FIXED_FINAL_FULL.html"
+    }
+  ]
+  </script>
+</head>
+<body>
+  <h1>Typowear JSON-LD Structured Data</h1>
+  <p>Ova stranica koristi vanjski GitHub feed kako bi dinamički uključila sve proizvode za SEO i Pinterest / Meta Pixel tracking.</p>
+</body>
+</html>
